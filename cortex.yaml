@@ -1,0 +1,44 @@
+cortex:
+ docsToken: <docsToken_jwt>
+ # IT IS RECOMMENDED TO SET THESE OTHERWISE THEY WILL BE ROTATED ON SUBSEQUENT `helm upgrades`
+ invitationCode: '<invite_code>'
+ vaultToken: 'vault'
+ csadminAcct: cogscale
+ csadminUsr: csadmin
+ csadminPwd: '<csadminPassword>'
+ mongodb:
+   username: 'mongoUser'
+   password: '<mongoPassword>'
+ mysql:
+   password: mysql
+   rootPassword: <mysqlPassword>
+ domains:
+   base: '<cluster_name>.<base_domain>'
+   api: 'https://api.<cluster_name>.<base_domain>'
+ smtp:
+   email: '<email_address>'
+   password: '<email_account_password>'
+   port: <tls_port_number>
+   from: '<smtp_from_header>'
+   host: '<smtp_server>'
+ ssl:
+   enabled: true
+fn:
+ fnserver:
+   env:
+     FN_REGISTRY: private-registry.<cluster_name>.<base_domain>
+mysql:
+ mysqlPassword: mysql
+ mysqlRootPassword: <mysqlPassword>
+docs:
+ cortexLicenseServer: "https://<cortex_license_server>"
+docker-registry:
+ configData:
+   auth:
+     token:
+       realm: 'https://api.<cluster_name>.<base_domain>/v2/admin/docker/authenticate'
+kongui:
+  enabled: true
+# for OpenShift uncomment the following to disable applying the ingress configmaps
+# ingress:
+#   enabled: false

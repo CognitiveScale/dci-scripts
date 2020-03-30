@@ -1,0 +1,106 @@
+---
+# Source: cortex5/templates/security/cluster-role.yaml
+# * CognitiveScale Cortex
+# *
+# * Copyright (c) CognitiveScale, Inc.
+# * All rights reserved.
+# * Dissemination or any rights to code or any derivative works thereof is strictly forbidden
+# * unless licensed and subject to a separate written agreement with CognitiveScale.
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+# * This file is a modification originally covered under the following license:
+# *
+# * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+# * use this file except in compliance with the License. You may obtain a copy of
+# * the License at
+# *
+# * http://www.apache.org/licenses/LICENSE-2.0
+# *
+# * Unless required by applicable law or agreed to in writing, software
+# * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# * License for the specific language governing permissions and limitations under
+# * the License.
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  namespace: cortex
+  name: actions-role
+rules:
+- apiGroups: ["", "batch", "apps"]
+  resources: ["jobs", "replicasets", "replicasets/status", "services", "pods", "pods/status", "pods/log"]
+  verbs: ["get", "list", "create", "delete"] # if .Values.privileged.enabled
+---
+# Source: cortex5/templates/security/cluster-binding-cortex.yaml
+# * CognitiveScale Cortex
+# *
+# * Copyright (c) CognitiveScale, Inc.
+# * All rights reserved.
+# * Dissemination or any rights to code or any derivative works thereof is strictly forbidden
+# * unless licensed and subject to a separate written agreement with CognitiveScale.
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+# * This file is a modification originally covered under the following license:
+# *
+# * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+# * use this file except in compliance with the License. You may obtain a copy of
+# * the License at
+# *
+# * http://www.apache.org/licenses/LICENSE-2.0
+# *
+# * Unless required by applicable law or agreed to in writing, software
+# * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# * License for the specific language governing permissions and limitations under
+# * the License.
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: actions-rbac-cortex
+  namespace: cortex
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: cortex
+roleRef:
+  kind: ClusterRole
+  name: actions-role
+  apiGroup: rbac.authorization.k8s.io # if .Values.privileged.enabled
+
+---
+# Source: cortex5/templates/security/cluster-binding-compute.yaml
+# * CognitiveScale Cortex
+# *
+# * Copyright (c) CognitiveScale, Inc.
+# * All rights reserved.
+# * Dissemination or any rights to code or any derivative works thereof is strictly forbidden
+# * unless licensed and subject to a separate written agreement with CognitiveScale.
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+# * This file is a modification originally covered under the following license:
+# *
+# * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+# * use this file except in compliance with the License. You may obtain a copy of
+# * the License at
+# *
+# * http://www.apache.org/licenses/LICENSE-2.0
+# *
+# * Unless required by applicable law or agreed to in writing, software
+# * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# * License for the specific language governing permissions and limitations under
+# * the License.
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: actions-rbac-compute
+  namespace: cortex-compute
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: cortex-compute
+roleRef:
+  kind: ClusterRole
+  name: actions-role
+  apiGroup: rbac.authorization.k8s.io # if .Values.privileged.enabled
+

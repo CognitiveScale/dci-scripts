@@ -9,10 +9,10 @@ spec:
       listener:
         filterChain:
           filter:
-            name: envoy.http_connection_manager
+            name: "envoy.http_connection_manager"
     patch:
       operation: MERGE
       value:
         typed_config:
-          @type: type.googleapis.com/envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager
+          "@type": "type.googleapis.com/envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager"
           server_header_transformation: PASS_THROUGH
